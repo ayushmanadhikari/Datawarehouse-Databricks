@@ -1,0 +1,74 @@
+## tracking the things i will be doing step by step in here
+
+## data modelling 
+    - we have a transactions table and now wish to create 4 dimensions around that fact table. 
+    - following are the columns in the raw transaction table: 
+        - unnamed first column
+        - trans_date_trans_time: transaction timestamp	
+        - cc_num	Credit card number	Hashed into customer_id; only last 4 digits kept
+        - merchant	Merchant name (prefixed with fraud_)	dim_merchant (prefix stripped)
+        - category	Merchant category, e.g. grocery_pos, travel	dim_category
+        - amt	Transaction amount	amount measure
+        - first, last, gender, dob	Cardholder details	dim_customer
+        - street, city, state, zip, job	Cardholder address and occupation	dim_customer (SCD2 tracked)
+        - lat, long	Cardholder home coordinates	Silver only (used to calculate distance_km)
+        - city_pop	City population	Not used in this simplified version
+        - trans_num	Unique transaction id	Degenerate dimension in the fact
+        - unix_time	Epoch timestamp	Not needed (redundant)
+        - merch_lat, merch_long	Merchant location for this transaction	Kept on the fact, used for distance_km
+        - is_fraud
+
+
+
+
+-- we will design 3 dimension tables around this transaction/fact table. we will be taking columns from this table and transfering into each dimension table. 
+0. fact_transaction
+    - fact_key PK 
+    - trans_num
+    - trans_dt_ts 
+    - cc_num 
+    - amt 
+    - FOREGIN KEYS  
+        - cust_key
+        - date_key
+        - merch_key
+        - cate_id
+
+1. dim_customer
+    - cust_key PK AUTOINCREMENT
+    - cust_id (generated from cc_num hashvalue sha256)
+    - cust_fname
+    - cust_lname
+    - cust_gender
+    - cust_dob
+    - cust_lat
+    - cust_long
+    - cust_distance
+    - cus_street
+    - cust_city
+    - cust_state
+    - cust_zip
+    - cust_job
+    - is_active BOOL
+
+2. dim_date
+    - date_key PK
+    - date_full
+    - year
+    - month
+    - day_of_month
+    - month_name
+    - day_of_week
+    - week_name
+    - is_weekend
+
+3. dim_merchant
+    - merch_key PK 
+    - merch_name
+    - merch_lat 
+    - merch_long
+    - is_fraud
+
+4. dim_category
+    - cat_id PK
+    - cat_name
