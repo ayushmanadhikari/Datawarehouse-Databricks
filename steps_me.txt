@@ -37,6 +37,7 @@
 1. dim_customer
     - cust_key PK AUTOINCREMENT
     - cust_id (generated from cc_num hashvalue sha256)
+    - card_lastfour 
     - cust_fname
     - cust_lname
     - cust_gender
@@ -72,3 +73,7 @@
 4. dim_category
     - cat_id PK
     - cat_name
+
+
+## now let's translate these into sql ddl to set up our database as well as tables
+The structure of our warehouse will be:
