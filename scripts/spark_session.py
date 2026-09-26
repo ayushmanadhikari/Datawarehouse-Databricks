@@ -1,7 +1,8 @@
 from pyspark.sql import SparkSession
 
 ## creating spark session
-spark = SparkSession.builder.appName('Spark1').getOrCreate()
+spark = SparkSession.builder.config("spark.jars.packages", "com.mysql:mysql-connector-j:8.3.0")\
+.appName('Spark1').getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 
 ##
