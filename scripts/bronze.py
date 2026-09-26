@@ -31,7 +31,7 @@ connect_properties = {
 print("Writing to mysql server bronze layer database...")
 
 ## repartitining to 4 for write operation
-bronze_df = bronze_df.repartition(8)
+bronze_df = bronze_df.repartition(4)
 print(bronze_df.rdd.getNumPartitions())
 
 ## writing to mysql using this created connection property and jdbc_url
