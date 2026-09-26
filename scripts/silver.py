@@ -79,10 +79,11 @@ connect_properties_write = {
     'batchSize': '3000'
 }
 
+write_url = 'jdbc:mysql://localhost:3306/silver'
 ## saving this processed dataframe into the silver mysql server
 try:
     print("writing to silver transactions table... ")
-    df_silver.write.jdbc(url=url_read, properties=connect_properties_write, table='s_transaction', mode='overwrite')
+    df_silver.write.jdbc(url=write_url, properties=connect_properties_write, table='s_transaction', mode='overwrite')
     print(f"write successfull! Rows added: {df_silver.count()}")
 except Exception as e:
     print("writing to silver transaction table failed. Error: {e}")
